@@ -7,6 +7,10 @@ import androidx.appcompat.widget.AppCompatImageView
 import com.my.ugame.R
 import kotlin.math.atan
 
+
+/**
+ * 潜艇类
+ */
 class Boat(context: Context) {
 
     internal val view by lazy { BoatView(context) }
@@ -23,6 +27,9 @@ class Boat(context: Context) {
     val y
         get() = view.y
 
+    /**
+     * 移动到指定坐标
+     */
     fun moveTo(x: Int, y: Int) {
         view.smoothMoveTo(x, y)
     }
@@ -72,6 +79,9 @@ internal class BoatView(context: Context?) : AppCompatImageView(context) {
 
     }
 
+    /**
+     * 移动更加顺换
+     */
     internal fun smoothMoveTo(x: Int, y: Int) {
         if (!_scroller.isFinished) _scroller.abortAnimation()
         _rotationAnimator?.let { if (it.isRunning) it.cancel() }

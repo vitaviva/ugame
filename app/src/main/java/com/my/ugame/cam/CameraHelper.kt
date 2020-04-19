@@ -22,7 +22,7 @@ fun Context.toast(msg: String) {
     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
 }
 
-class Camera2HelperFace(val mActivity: Activity, private val mTextureView: AutoFitTextureView) {
+class CameraHelper(val mActivity: Activity, private val mTextureView: AutoFitTextureView) {
 
     private lateinit var mCameraManager: CameraManager
     private var mCameraDevice: CameraDevice? = null
@@ -32,7 +32,7 @@ class Camera2HelperFace(val mActivity: Activity, private val mTextureView: AutoF
     private lateinit var mCameraCharacteristics: CameraCharacteristics
 
     private var mCameraSensorOrientation = 0                                            //摄像头方向
-    private var mCameraFacing = CameraCharacteristics.LENS_FACING_BACK            //默认使用后置摄像头
+    private var mCameraFacing = CameraCharacteristics.LENS_FACING_BACK             //默认使用前置摄像头
     private var mFaceDetectMode = CaptureResult.STATISTICS_FACE_DETECT_MODE_OFF     //人脸检测模式
 
     private var canExchangeCamera = false                                               //是否可以切换摄像头

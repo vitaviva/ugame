@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import androidx.core.graphics.drawable.toBitmap
 import com.my.ugame.R
 
-
+/**
+ * 障碍物基类
+ */
 sealed class Bar(context: Context) {
 
     protected open val bmp = context.getDrawable(R.mipmap.bar)!!.toBitmap()
@@ -58,7 +60,9 @@ sealed class Bar(context: Context) {
 
 }
 
-
+/**
+ * 屏幕上方障碍物
+ */
 class UpBar(context: Context, container: ViewGroup) : Bar(context) {
 
     private val _srcRect by lazy(LazyThreadSafetyMode.NONE) {
@@ -69,6 +73,9 @@ class UpBar(context: Context, container: ViewGroup) : Bar(context) {
 
 }
 
+/**
+ * 屏幕下方障碍物
+ */
 class DnBar(context: Context, container: ViewGroup) : Bar(context) {
 
     override val bmp = super.bmp.let {

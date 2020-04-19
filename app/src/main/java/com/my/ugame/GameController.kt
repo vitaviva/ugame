@@ -7,10 +7,12 @@ import androidx.lifecycle.*
 import com.my.ugame.bg.BackgroundView
 import com.my.ugame.bg.FIRST_APPEAR_DELAY_MILLIS
 import com.my.ugame.cam.AutoFitTextureView
-import com.my.ugame.cam.Camera2HelperFace
+import com.my.ugame.cam.CameraHelper
 import com.my.ugame.fg.ForegroundView
 
-
+/**
+ * 游戏控制类
+ */
 class GameController(
     private val activity: AppCompatActivity,
     private val textureView: AutoFitTextureView,
@@ -22,8 +24,8 @@ class GameController(
 
             @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
             fun onDestroy() {
-                camera2HelperFace?.releaseCamera()
-                camera2HelperFace?.releaseThread()
+                cameraHelper?.releaseCamera()
+                cameraHelper?.releaseThread()
             }
         })
     }
@@ -32,7 +34,7 @@ class GameController(
         android.os.Handler(activity.mainLooper)
     }
 
-    private var camera2HelperFace: Camera2HelperFace? = null
+    private var cameraHelper: CameraHelper? = null
 
     private var _score: Long = 0L
 
@@ -108,9 +110,9 @@ class GameController(
      * 相机初始化
      */
     private fun initCamera() {
-        camera2HelperFace ?: run {
-            camera2HelperFace = Camera2HelperFace(activity, textureView).apply {
-                setFaceDetectListener(object : Camera2HelperFace.FaceDetectListener {
+        cameraHelper ?: run {
+            cameraHelper = CameraHelper(activity, textureView).apply {
+                setFaceDetectListener(object : CameraHelper.FaceDetectListener {
                     override fun onFaceDetect(faces: Array<Face>, facesRect: ArrayList<RectF>) {
                         if (facesRect.isNotEmpty()) {
                             fg.onFaceDetect(faces, facesRect)
@@ -125,7 +127,7 @@ class GameController(
      * 切换摄像头
      */
     fun switchCamera() {
-        camera2HelperFace?.exchangeCamera()
+        cameraHelper?.exchangeCamera()
     }
 
     /**

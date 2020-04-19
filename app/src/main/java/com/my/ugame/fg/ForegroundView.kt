@@ -13,10 +13,14 @@ import android.util.TypedValue
 import android.widget.FrameLayout
 import androidx.annotation.MainThread
 import androidx.core.animation.doOnEnd
-import com.my.ugame.cam.Camera2HelperFace
+import com.my.ugame.cam.CameraHelper
 
+
+/**
+ * 前景容器类
+ */
 class ForegroundView(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs),
-    Camera2HelperFace.FaceDetectListener {
+    CameraHelper.FaceDetectListener {
 
     private var _isStop: Boolean = false
 
@@ -28,11 +32,17 @@ class ForegroundView(context: Context, attrs: AttributeSet?) : FrameLayout(conte
 
     private val _heightOffset by lazy { dip2px(context, 150F) }
 
+    /**
+     * 游戏停止，潜艇不再移动
+     */
     @MainThread
     fun stop() {
         _isStop = true
     }
 
+    /**
+     * 游戏开始时通过动画进入
+     */
     @MainThread
     fun start() {
         _isStop = false
@@ -59,6 +69,9 @@ class ForegroundView(context: Context, attrs: AttributeSet?) : FrameLayout(conte
         }
     }
 
+    /**
+     * 接受人脸识别的回调，移动位置
+     */
     override fun onFaceDetect(faces: Array<Face>, facesRect: ArrayList<RectF>) {
         if (_isStop) return
         if (facesRect.isNotEmpty()) {

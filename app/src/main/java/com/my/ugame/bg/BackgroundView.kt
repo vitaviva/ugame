@@ -10,6 +10,9 @@ import androidx.annotation.UiThread
 import androidx.core.animation.doOnEnd
 import java.util.*
 
+/**
+ * 后景容器类
+ */
 class BackgroundView(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
 
     private lateinit var _timer: Timer
@@ -39,6 +42,9 @@ class BackgroundView(context: Context, attrs: AttributeSet?) : FrameLayout(conte
         }
     }
 
+    /**
+     * 游戏结束，停止所有障碍物的移动
+     */
     @UiThread
     fun stop() {
         _timer.cancel()
@@ -46,6 +52,12 @@ class BackgroundView(context: Context, attrs: AttributeSet?) : FrameLayout(conte
         _anims.clear()
     }
 
+    /**
+     * 定时刷新障碍物：
+     * 1. 创建
+     * 2. 添加到视图
+     * 3. 移动
+     */
     @UiThread
     fun start() {
         _clearBars()
@@ -65,6 +77,9 @@ class BackgroundView(context: Context, attrs: AttributeSet?) : FrameLayout(conte
         )
     }
 
+    /**
+     * 创建障碍物（上下两个为一组）
+     */
     private fun _createBars(context: Context, pre: Bars?) = run {
         val up = UpBar(context, this).apply {
             h = pre?.let {
@@ -88,12 +103,9 @@ class BackgroundView(context: Context, attrs: AttributeSet?) : FrameLayout(conte
 
     }
 
-
-    private fun _clearBars() {
-        barsList.clear()
-        removeAllViews()
-    }
-
+    /**
+     * 添加到屏幕
+     */
     private fun _addBars(bars: Bars) {
         barsList.add(bars)
         bars.asArray().forEach {
@@ -107,6 +119,9 @@ class BackgroundView(context: Context, attrs: AttributeSet?) : FrameLayout(conte
         }
     }
 
+    /**
+     * 使用属性动画移动障碍物（从屏幕左侧到右侧）
+     */
     private fun _moveBars(bars: Bars) {
         _anims.add(
             ValueAnimator.ofFloat(width.toFloat(), -_barWidth)
@@ -124,6 +139,15 @@ class BackgroundView(context: Context, attrs: AttributeSet?) : FrameLayout(conte
                     interpolator = LinearInterpolator()
                     start()
                 })
+    }
+
+
+    /**
+     * 游戏重启时，清空障碍物
+     */
+    private fun _clearBars() {
+        barsList.clear()
+        removeAllViews()
     }
 
 }
